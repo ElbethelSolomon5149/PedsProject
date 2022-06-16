@@ -1,0 +1,32 @@
+﻿@model  List<ProjectTrail2.Context.Schedule>
+@{
+    ViewBag.Title = "ScheduleList";
+}
+
+<table class="table table-hover">
+    <tr>
+        <th>ScheduleId</th>
+        <th>ScheduleDate</th>
+        <th>ScheduleTime</th>
+        <th>ScheduleStatus</th>
+        <th>Remark</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Scheduleid</td>
+            <td>@item.ScheduleDate</td>
+            <td>@item.ScheduleTime</td>
+            <td>@item.ScheduleStatus</td>
+            <td>@item.Remark</td>
+            <td>
+                <a href="@Url.Action("Schedule",new { item.Scheduleid,item.ScheduleDate,item.ScheduleTime,item.ScheduleStatus,item.Remark })"><i class="glyphicon glyphicon-pencil"></i></a>
+                <a href="@Url.Action("Delete",new { ID=@item.Scheduleid})"><i class="glyphicon glyphicon-trash"></i></a>
+            </td>
+        </tr>
+    }
+
+
+</table>
+

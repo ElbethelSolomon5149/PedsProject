@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TrainingScheduleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AddressInfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Country" Type="varchar" MaxLength="200" />
+    <Property Name="City" Type="varchar" MaxLength="200" />
+    <Property Name="Woreda" Type="varchar" MaxLength="200" />
+    <Property Name="Kebele" Type="varchar" MaxLength="200" />
+    <Property Name="StreetName" Type="varchar" MaxLength="200" />
+    <Property Name="HouseNumber" Type="varchar" MaxLength="200" />
+    <Property Name="Email" Type="varchar" MaxLength="200" />
+    <Property Name="Region" Type="varchar" MaxLength="200" />
+    <Property Name="Subcity" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdminName" Type="varchar" MaxLength="200" />
+    <Property Name="AdminPassword" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Contract">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Customerid" Type="int" />
+    <Property Name="ContractStartDate" Type="date" />
+    <Property Name="ContractEndDate" Type="date" />
+    <Property Name="ContractCode" Type="int" />
+  </EntityType>
+  <EntityType Name="ContractDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Contractid" Type="int" />
+    <Property Name="AddressInfo" Type="int" />
+    <Property Name="Offering" Type="varchar" MaxLength="200" />
+    <Property Name="Version" Type="varchar" MaxLength="200" />
+    <Property Name="Branch" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="200" />
+    <Property Name="CustomerPhone" Type="int" />
+    <Property Name="CustomerTinNumber" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NumberOfRooms" Type="int" />
+    <Property Name="RoomNumber" Type="int" />
+    <Property Name="FloorNumber" Type="int" />
+    <Property Name="IsBooked" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContractDetailid" Type="int" />
+    <Property Name="Trainerid" Type="int" />
+    <Property Name="Roomid" Type="int" />
+    <Property Name="ScheduleDate" Type="date" />
+    <Property Name="ScheduleTime" Type="time" Precision="7" />
+    <Property Name="ScheduleStatus" Type="varchar" MaxLength="500" />
+    <Property Name="Remark" Type="varchar" MaxLength="500" />
+    <Property Name="IsFree" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="ScheduleDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Traineeid" Type="int" />
+    <Property Name="Contractdetailid" Type="int" />
+    <Property Name="PhoneNumber" Type="int" />
+    <Property Name="ScheduleDetailStatus" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Trainer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TrainerName" Type="varchar" MaxLength="200" />
+    <Property Name="TrainerPassword" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <Association Name="FK__Contract__Custom__2D27B809">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Contract">
+        <PropertyRef Name="Customerid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ContractD__Addre__33D4B598">
+    <End Role="AddressInfo" Type="Self.AddressInfo" Multiplicity="0..1" />
+    <End Role="ContractDetail" Type="Self.ContractDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AddressInfo">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ContractDetail">
+        <PropertyRef Name="AddressInfo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ContractD__Contr__32E0915F">
+    <End Role="Contract" Type="Self.Contract" Multiplicity="0..1" />
+    <End Role="ContractDetail" Type="Self.ContractDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contract">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ContractDetail">
+        <PropertyRef Name="Contractid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Schedule__Contra__3D5E1FD2">
+    <End Role="ContractDetail" Type="Self.ContractDetail" Multiplicity="0..1" />
+    <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ContractDetail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="ContractDetailid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Schedule__Roomid__3F466844">
+    <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+    <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="Roomid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Schedule__Traine__3E52440B">
+    <End Role="Trainer" Type="Self.Trainer" Multiplicity="0..1" />
+    <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trainer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="Trainerid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ScheduleD__Contr__4D94879B">
+    <End Role="ContractDetail" Type="Self.ContractDetail" Multiplicity="0..1" />
+    <End Role="ScheduleDetail" Type="Self.ScheduleDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ContractDetail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ScheduleDetail">
+        <PropertyRef Name="Contractdetailid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ScheduleD__Train__4CA06362">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="ScheduleDetail" Type="Self.ScheduleDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ScheduleDetail">
+        <PropertyRef Name="Traineeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TrainingScheduleModelStoreContainer">
+    <EntitySet Name="AddressInfo" EntityType="Self.AddressInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ContractDetail" EntityType="Self.ContractDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ScheduleDetail" EntityType="Self.ScheduleDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Trainer" EntityType="Self.Trainer" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Contract__Custom__2D27B809" Association="Self.FK__Contract__Custom__2D27B809">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Contract" EntitySet="Contract" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ContractD__Addre__33D4B598" Association="Self.FK__ContractD__Addre__33D4B598">
+      <End Role="AddressInfo" EntitySet="AddressInfo" />
+      <End Role="ContractDetail" EntitySet="ContractDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ContractD__Contr__32E0915F" Association="Self.FK__ContractD__Contr__32E0915F">
+      <End Role="Contract" EntitySet="Contract" />
+      <End Role="ContractDetail" EntitySet="ContractDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Schedule__Contra__3D5E1FD2" Association="Self.FK__Schedule__Contra__3D5E1FD2">
+      <End Role="ContractDetail" EntitySet="ContractDetail" />
+      <End Role="Schedule" EntitySet="Schedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Schedule__Roomid__3F466844" Association="Self.FK__Schedule__Roomid__3F466844">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Schedule" EntitySet="Schedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Schedule__Traine__3E52440B" Association="Self.FK__Schedule__Traine__3E52440B">
+      <End Role="Trainer" EntitySet="Trainer" />
+      <End Role="Schedule" EntitySet="Schedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ScheduleD__Contr__4D94879B" Association="Self.FK__ScheduleD__Contr__4D94879B">
+      <End Role="ContractDetail" EntitySet="ContractDetail" />
+      <End Role="ScheduleDetail" EntitySet="ScheduleDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ScheduleD__Train__4CA06362" Association="Self.FK__ScheduleD__Train__4CA06362">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="ScheduleDetail" EntitySet="ScheduleDetail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
